@@ -81,7 +81,7 @@ pipeline {
              agent any
              steps {
                  sh 'docker rm -f qa-petclinic || true'
-                 sh 'docker run -p 18889:8080 -d --network=${LDOP_NETWORK_NAME} --name qa-petclinic petclinic-tomcat'
+                 sh 'docker run --label "traefik.backend=qa-petclinic" --label "traefik.frontend.rule=Host:qa.petclinic.docker.localhost" -d --network=${LDOP_NETWORK_NAME} --name qa-petclinic petclinic-tomcat'
              }
          }
          stage('Smoke test qa') {
@@ -102,7 +102,7 @@ pipeline {
              agent any
              steps {
                  sh 'docker rm -f prod-petclinic || true'
-                 sh 'docker run -p 18890:8080 -d --network=${LDOP_NETWORK_NAME} --name prod-petclinic petclinic-tomcat'
+                 sh 'docker run --label "traefik.backend=prod-petclinic" --label "traefik.frontend.rule=Host:prod.petclinic.docker.localhost" -d --network=${LDOP_NETWORK_NAME} --name prod-petclinic petclinic-tomcat'
              }
          }
          stage('Smoke Test prod') {
