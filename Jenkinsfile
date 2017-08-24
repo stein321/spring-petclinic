@@ -4,8 +4,8 @@ pipeline {
        stage('Build') {
            agent {
                docker {
-                   image 'maven:3.3.0'
-                   args '--network=pipelinedeveloper_default'
+                   image 'maven:3.5.0'
+                   args '-e INITIAL_ADMIN_USER -e INITIAL_ADMIN_PASSWORD --network=${LDOP_NETWORK_NAME}'
                }
            }
            steps {
@@ -15,18 +15,5 @@ pipeline {
                }
            }
        }
-       stage('Deploy') {
-           agent {
-                   docker {
-                       image 'liatrio/cf-cli'
-                   }
-           }
-           steps {
-                  withCredentials([usernamePassword(credentialsId: 'pivotal', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                      sh "cf api https://api.run.pivotal.io && cf login -u ${env.USERNAME} -p ${env.PASSWORD}"
-                      sh 'cf push'
-                  }
-              }
-          }
     }
 }
