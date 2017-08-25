@@ -1,5 +1,6 @@
 pipeline {
     agent none
+    logstashSend failBuild: true, maxLines: 1000
     stages {
        stage('Build') {
            agent {
