@@ -1,6 +1,7 @@
 pipeline {
     agent none
     stages {
+       logstashSend failBuild: true, maxLines: 100000
        stage('Build') {
            agent {
                docker {
