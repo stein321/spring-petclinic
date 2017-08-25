@@ -11,39 +11,24 @@ pipeline {
                    sh 'mvn clean install -DskipTests=true -B'
            }
        }
-       stage('Build latest') {
+       stage('Build with branchname and push') {
              agent any
              steps {
-                 sh 'docker build -t stein321/petclinic-tomcat:latest .'
+                 sh 'docker build -t stein321/petclinic-tomcat:${env.BRANCH_NAME} .'
+                //  sh 'docker push  stein321/petclinic-tomcat:${env.BRANCH_NAME}'
              }
        }
-       stage('push') {
-           agent any
+       stage('Build container with version') {
+           when { branch 'poc-pipeline'}
+            agent any
+            environment {
+                version = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
+            }
            steps {
-               sh 'docker build -t stein321/petclinic-tomcat:latest .'
+                sh "docker build -t stein321/petclinic-tomcat:${version}"
+                sh "docker build -t stein321/petclinic-tomcat:${version}"
            }
-       }
-       stage('get version') {
-        //    when { branch 'master' }
-           agent any
-           steps {
-               sh "docker inspect stein321/petclinic-tomcat:latest > containerMetaData.json"
-               script {
-                   def containerMetaData = readJSON file: 'containerMetaData.json'
-                   println containerMetaData[0].ContainerConfig.Labels.version.split(" ")[1]
-               }
-           }
-       }
-    //    stage('') {
-    //        when { branch 'master'}
-    //        agent any
-    //        environment {
-    //            version = getVersionFromContainer()
-    //        }
-    //        steps {
-    //            sh "docker build -t stein321/petclinic-tomcat:${version}"
-    //        }
-    //    }
 
-    }
+       }
+   }
 }
