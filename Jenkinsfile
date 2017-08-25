@@ -7,12 +7,12 @@ pipeline {
                    image 'maven:3.5.0'
                    args '-e INITIAL_ADMIN_USER -e INITIAL_ADMIN_PASSWORD --network=${LDOP_NETWORK_NAME}'
                }
+               logstashSend failBuild: true, maxLines: 1000
            }
            steps {
                configFileProvider(
                        [configFile(fileId: 'nexus', variable: 'MAVEN_SETTINGS')]) {
                    sh 'mvn -s $MAVEN_SETTINGS clean deploy -DskipTests=true -B'
-                   logstashSend failBuild: true, maxLines: 1000
                }
            }
        }
