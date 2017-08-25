@@ -1,6 +1,5 @@
 pipeline {
     agent none
-    logstashSend failBuild: true, maxLines: 1000
     stages {
        stage('Build') {
            agent {
@@ -13,6 +12,7 @@ pipeline {
                configFileProvider(
                        [configFile(fileId: 'nexus', variable: 'MAVEN_SETTINGS')]) {
                    sh 'mvn -s $MAVEN_SETTINGS clean deploy -DskipTests=true -B'
+                   logstashSend failBuild: true, maxLines: 1000
                }
            }
        }
