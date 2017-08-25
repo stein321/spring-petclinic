@@ -16,7 +16,9 @@ pipeline {
        }
       stage('Publish') {
         agent none
-        logstashSend failBuild: true, maxLines: 100000
+        steps {
+            logstashSend failBuild: true, maxLines: 100000
+        }
       }
     }
 }
