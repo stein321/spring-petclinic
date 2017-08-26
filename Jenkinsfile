@@ -22,7 +22,7 @@ pipeline {
            when { branch 'poc-pipeline'}
             agent any
             environment {
-                version = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
+                version = getVersionFromContaine("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
             }
            steps {
                 echo "${env.version}"
