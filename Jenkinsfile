@@ -22,9 +22,16 @@ pipeline {
            when { branch 'poc-pipeline'}
             agent any
             environment {
-                version = getVersionFromContaine("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
+                version = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
             }
            steps {
+               script {
+                   sh "docker inspect ${imageName} > containerMetaData.json"
+                    def metaData = readJSON file: "containerMetaData.json"
+                    println metaData
+                    def version = metaData[0].ContainerConfig.Labels.version
+                    println version
+               }
                 echo "${env.version}"
                 echo "${version}"
                 sh "docker build -t stein321/petclinic-tomcat:${env.version}"
