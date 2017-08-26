@@ -14,7 +14,7 @@ pipeline {
        stage('Build with branchname and push') {
              agent any
              steps {
-                 sh 'docker build -t stein321/petclinic-tomcat:${env.BRANCH_NAME} .'
+                 sh "docker build -t stein321/petclinic-tomcat:${env.BRANCH_NAME} ."
                 //  sh 'docker push  stein321/petclinic-tomcat:${env.BRANCH_NAME}'
              }
        }
@@ -28,7 +28,6 @@ pipeline {
                 sh "docker build -t stein321/petclinic-tomcat:${version}"
                 sh "docker build -t stein321/petclinic-tomcat:${version}"
            }
-
        }
    }
 }
