@@ -26,7 +26,7 @@ pipeline {
             }
            steps {
                script {
-                   sh "docker inspect ${imageName} > containerMetaData.json"
+                   sh "docker inspect stein321/petclinic-tomcat:${env.BRANCH_NAME} > containerMetaData.json"
                     def metaData = readJSON file: "containerMetaData.json"
                     println metaData
                     def version = metaData[0].ContainerConfig.Labels.version
