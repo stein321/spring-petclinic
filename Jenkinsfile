@@ -25,8 +25,8 @@ pipeline {
                 version = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
             }
            steps {
-                echo "${version}"
                 echo "${env.version}"
+                echo "${version}"
                 sh "docker build -t stein321/petclinic-tomcat:${env.version}"
                 sh "docker build -t stein321/petclinic-tomcat:${env.version}"
            }
