@@ -121,7 +121,7 @@ pipeline {
                  sh "cd regression-suite"
                  sh "mvn clean -B test -DPETCLINIC_URL=http://prod-petclinic:8080/petclinic/"
                  echo "Should be accessible at http://localhost:18890/petclinic"
-                 logstashSend failBuild: true, maxLines: 1000000
+                 logstashSend failBuild: true, maxLines: 100
              }
          }
     }
