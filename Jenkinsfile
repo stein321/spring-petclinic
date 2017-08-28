@@ -1,3 +1,4 @@
+@Library('my-shared-library') _
 pipeline {
     agent none
     stages {
@@ -25,13 +26,13 @@ pipeline {
                 version = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
             }
            steps {
-               script {
-                   sh "docker inspect stein321/petclinic-tomcat:${env.BRANCH_NAME} > containerMetaData.json"
-                    def metaData = readJSON file: "containerMetaData.json"
-                    println metaData
-                    def version = metaData[0].ContainerConfig.Labels.version
-                    println version
-               }
+            //    script {
+            //        sh "docker inspect stein321/petclinic-tomcat:${env.BRANCH_NAME} > containerMetaData.json"
+            //         def metaData = readJSON file: "containerMetaData.json"
+            //         println metaData
+            //         def version = metaData[0].ContainerConfig.Labels.version
+            //         println version
+            //    }
                 echo "${env.version}"
                 echo "${version}"
                 sh "docker build -t stein321/petclinic-tomcat:${env.version}"
