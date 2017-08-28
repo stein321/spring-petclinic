@@ -1,4 +1,4 @@
-@Library('my-shared-library') _
+@Library('ldop-shared-library') _
 pipeline {
     agent none
     stages {
