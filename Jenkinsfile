@@ -35,7 +35,7 @@ pipeline {
             //    }
                 // getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
                 echo "${env.VERSION}"
-                echo "${VERSION}"
+                // echo "${VERSION}"
                 sh "docker build -t stein321/petclinic-tomcat:${env.VERSION}"
                 sh "docker build -t stein321/petclinic-tomcat:${env.VERSION}"
            }
