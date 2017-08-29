@@ -21,17 +21,11 @@ pipeline {
        }
        stage('Build container with version') {
            when { branch 'poc-pipeline'}
-            agent any
+           agent any
            steps {
-            //    script {
-            //        sh "docker inspect stein321/petclinic-tomcat:${env.BRANCH_NAME} > containerMetaData.json"
-            //         def metaData = readJSON file: "containerMetaData.json"
-            //         println metaData
-            //         def version = metaData[0].ContainerConfig.Labels.version
-            //         println version
-            //    }
-                // getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
+                doesVersionExist()
                 sh "docker build -t stein321/petclinic-tomcat:${getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")} ."
+                sh "docker push stein321/petclinic-tomcat:${getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")}"
            }
        }
    }
