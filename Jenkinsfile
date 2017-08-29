@@ -15,21 +15,20 @@ pipeline {
        stage('Build with branchname and push') {
              agent any
              steps {
-                 sh "docker build -t stein321/petclinic-tomcat:${env.BRANCH_NAME} ."
-                //  sh 'docker push  stein321/petclinic-tomcat:${env.BRANCH_NAME}'
+                 sh "docker build -t liatrio/petclinic-tomcat:${env.BRANCH_NAME} ."
+                 sh 'docker push  liatrio/petclinic-tomcat:${env.BRANCH_NAME}'
              }
        }
        stage('Build container with version') {
-           when { branch 'poc-pipeline'}
+           when { branch 'master'}
            agent any
            steps {
                 script {
-                    def containerVersion = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
-                    failIfVersionExists("stein321","petclinic-tomcat",containerVersion)
-                    sh "docker build -t stein321/petclinic-tomcat:${containerVersion} ."
-                    sh "docker push stein321/petclinic-tomcat:${containerVersion}"
+                    def containerVersion = getVersionFromContainer("liatrio/petclinic-tomcat:${env.BRANCH_NAME}")
+                    failIfVersionExists("liatrio","petclinic-tomcat",containerVersion)
+                    sh "docker build -t liatrio/petclinic-tomcat:${containerVersion} ."
+                    sh "docker push liatrio/petclinic-tomcat:${containerVersion}"
                 }
-
            }
        }
    }
