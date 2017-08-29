@@ -34,8 +34,8 @@ pipeline {
             //         println version
             //    }
                 // getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
-
-                echo "$VERSION"
+                sh 'printenv'
+                sh "echo $VERSION"
                 sh "docker build -t stein321/petclinic-tomcat:$VERSION"
            }
        }
