@@ -23,9 +23,13 @@ pipeline {
            when { branch 'poc-pipeline'}
            agent any
            steps {
-                failIfVersionExists("stein321","petclinic-tomcat","${getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")}")
-                sh "docker build -t stein321/petclinic-tomcat:${getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")} ."
-                sh "docker push stein321/petclinic-tomcat:${getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")}"
+                script {
+                    def containerVersion = getVersionFromContainer("stein321/petclinic-tomcat:${env.BRANCH_NAME}")
+                    failIfVersionExists("stein321","petclinic-tomcat",containerVersion)
+                    sh "docker build -t stein321/petclinic-tomcat:${containerVersion} ."
+                    sh "docker push stein321/petclinic-tomcat:${containerVersion}"
+                }
+
            }
        }
    }
