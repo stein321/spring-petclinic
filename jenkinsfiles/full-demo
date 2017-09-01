@@ -34,7 +34,7 @@ pipeline {
         sh 'mvn clean'
           script {
             pom = readMavenPom file: 'pom.xml'
-              if (params.version == 'UNSPECIFIED) {
+              if (params.version == 'UNSPECIFIED') {
                 getNexusMavenArtifact(pom.groupId, pom.artifactId, pom.version, './target/petclinic.war')
               } else {
                 getNexusMavenArtifact(pom.groupId, pom.artifactId, params.VERSION, './target/petclinic.war')
