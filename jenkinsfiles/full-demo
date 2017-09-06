@@ -1,3 +1,4 @@
+#!/bin/env groovy
 pipeline {
   agent none
     parameters {
@@ -35,9 +36,9 @@ pipeline {
           script {
             pom = readMavenPom file: 'pom.xml'
               if (params.version == 'UNSPECIFIED') {
-                getNexusMavenArtifact(pom.groupId, pom.artifactId, pom.version, './target/petclinic.war')
+                getArtifact(pom.groupId, pom.artifactId, pom.version)
               } else {
-                getNexusMavenArtifact(pom.groupId, pom.artifactId, params.VERSION, './target/petclinic.war')
+                getArtifact(pom.groupId, pom.artifactId, params.VERSION)
               }
           }
       }
